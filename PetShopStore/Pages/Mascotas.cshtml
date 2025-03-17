@@ -1,0 +1,64 @@
+﻿@page
+@model PetShopStore.Pages.MascotasModel
+@using DevExtreme.AspNet.Mvc;
+@using PetShopCore.Models.DTOs
+@{
+    ViewData["Title"] = "Gestion Mascotas";
+}
+
+<h2>Gestión de Mascotas</h2>
+
+@(Html.DevExtreme().Form<MascotaConDueñoDto>()
+    .ID("formMascotaDueño")
+    .FormData(new MascotaConDueñoDto())
+    .Items(items =>
+    {
+        items.AddGroup()
+            .Caption("Información del Dueño")
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.NombreDueño);
+                groupItems.AddSimpleFor(m => m.Cedula);
+                groupItems.AddSimpleFor(m => m.Telefono);
+                groupItems.AddSimpleFor(m => m.Correo);
+            });
+
+        items.AddGroup()
+            .Caption("Información de la Mascota")
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.NombreMascota);
+                groupItems.AddSimpleFor(m => m.Especie);
+                groupItems.AddSimpleFor(m => m.Raza);
+                groupItems.AddSimpleFor(m => m.FechaNacimiento).Editor(e => e.DateBox());
+            });
+
+        items.AddButton()
+            .HorizontalAlignment(HorizontalAlignment.Right)
+            .ButtonOptions(b => b.Text("Guardar")
+                .Type(ButtonType.Success)
+                .UseSubmitBehavior(true)
+                .OnClick("guardarMascota")
+            );
+    })
+)
+<hr />
+
+@(Html.DevExtreme().DataGrid()
+    .ID("gridMascotas")
+    .DataSource("/Mascotas?handler=Mascotas", "GET")
+    .Columns(columns =>
+    {
+        columns.Add().DataField("id").Caption("ID").Width(50);
+        columns.Add().DataField("nombre").Caption("Nombre");
+        columns.Add().DataField("especie").Caption("Especie");
+        columns.Add().DataField("raza").Caption("Raza");
+        columns.Add().DataField("edad").Caption("Edad");
+    })
+    .Paging(p => p.PageSize(10))
+    .FilterRow(f => f.Visible(true))
+    .SearchPanel(s => s.Visible(true))
+    .ShowBorders(true)
+)
+
+<script src="/js/mascotas.js"></script>
