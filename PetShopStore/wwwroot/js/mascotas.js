@@ -16,12 +16,15 @@
 });
 
 async function guardarMascota() {
-    const mascota = {
-        nombre: document.getElementById("nombre").value,
+    const mascotaConDueño = {
+        nombreMascota: document.getElementById("nombreMascota").value,
         especie: document.getElementById("especie").value,
         raza: document.getElementById("raza").value,
         fechaNacimiento: document.getElementById("fechaNacimiento").value,
-        dueñoId: document.getElementById("dueñoId").value
+        nombreDueño: document.getElementById("nombreDueño").value,
+        cedula: document.getElementById("cedula").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value
     };
 
     try {
@@ -30,14 +33,15 @@ async function guardarMascota() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(mascota)
+            body: JSON.stringify(mascotaConDueño)
         });
 
         if (response.ok) {
             alert("Mascota guardada con éxito");
             location.reload();
         } else {
-            alert("Error al guardar la mascota");
+            const errorText = await response.text();
+            alert(`Error al guardar la mascota: ${errorText}`);
         }
     } catch (error) {
         console.error("Error:", error);

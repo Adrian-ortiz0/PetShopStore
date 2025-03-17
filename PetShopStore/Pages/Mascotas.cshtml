@@ -17,27 +17,27 @@
             .Caption("Información del Dueño")
             .Items(groupItems =>
             {
-                groupItems.AddSimpleFor(m => m.NombreDueño);
-                groupItems.AddSimpleFor(m => m.Cedula);
-                groupItems.AddSimpleFor(m => m.Telefono);
-                groupItems.AddSimpleFor(m => m.Correo);
+                groupItems.AddSimpleFor(m => m.NombreDueño).Editor(e => e.TextBox().ID("nombreDueño"));
+                groupItems.AddSimpleFor(m => m.Cedula).Editor(e => e.TextBox().ID("cedula"));
+                groupItems.AddSimpleFor(m => m.Telefono).Editor(e => e.TextBox().ID("telefono"));
+                groupItems.AddSimpleFor(m => m.Correo).Editor(e => e.TextBox().ID("correo"));
             });
 
         items.AddGroup()
             .Caption("Información de la Mascota")
             .Items(groupItems =>
             {
-                groupItems.AddSimpleFor(m => m.NombreMascota);
-                groupItems.AddSimpleFor(m => m.Especie);
-                groupItems.AddSimpleFor(m => m.Raza);
-                groupItems.AddSimpleFor(m => m.FechaNacimiento).Editor(e => e.DateBox());
+                groupItems.AddSimpleFor(m => m.NombreMascota).Editor(e => e.TextBox().ID("nombreMascota"));
+                groupItems.AddSimpleFor(m => m.Especie).Editor(e => e.TextBox().ID("especie"));
+                groupItems.AddSimpleFor(m => m.Raza).Editor(e => e.TextBox().ID("raza"));
+                groupItems.AddSimpleFor(m => m.FechaNacimiento).Editor(e => e.DateBox().ID("fechaNacimiento"));
             });
 
         items.AddButton()
             .HorizontalAlignment(HorizontalAlignment.Right)
             .ButtonOptions(b => b.Text("Guardar")
                 .Type(ButtonType.Success)
-                .UseSubmitBehavior(true)
+                .UseSubmitBehavior(false) 
                 .OnClick("guardarMascota")
             );
     })

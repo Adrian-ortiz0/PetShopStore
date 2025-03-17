@@ -6,6 +6,7 @@ using PetShopCore.Services;
 
 namespace PetShopStore.Pages
 {
+    [IgnoreAntiforgeryToken]
     public class MascotasModel : PageModel
     {
         private readonly IMascotaService _mascotaService;
@@ -27,7 +28,16 @@ namespace PetShopStore.Pages
         {
             if (nuevaMascota == null)
             {
-                return BadRequest("Los datos enviados no son validos");
+                return BadRequest(new { success = false, message = "El objeto recibido es nulo." });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { success = false, errors });
             }
 
             var dueño = new Dueño
@@ -48,7 +58,7 @@ namespace PetShopStore.Pages
             };
             await _dueñoService.AddAsync(dueño);
             await _mascotaService.AddAsync(mascota);
-            return RedirectToPage();
+            return new JsonResult(new { success = true, message = "Mascota guardada exitosamente." });
         }
     }
 }
