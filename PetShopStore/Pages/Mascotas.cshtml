@@ -47,6 +47,7 @@
 @(Html.DevExtreme().DataGrid()
     .ID("gridMascotas")
     .DataSource("/Mascotas?handler=Mascotas")
+
     .Columns(columns =>
     {
         columns.Add().DataField("Id").Caption("ID").Width(50);
@@ -62,7 +63,8 @@
     .Editing(e => e.Mode(GridEditMode.Popup)
     .AllowAdding(true)
     .AllowUpdating(true)
-    .AllowDeleting(true))
+    .AllowDeleting(true)
+    .UseIcons(true))
 )
 
 <script src="/js/mascotas.js"></script>
