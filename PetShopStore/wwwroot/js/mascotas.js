@@ -16,16 +16,8 @@
 });
 
 async function guardarMascota() {
-    const mascotaConDueño = {
-        nombreMascota: document.getElementById("nombreMascota").value,
-        especie: document.getElementById("especie").value,
-        raza: document.getElementById("raza").value,
-        fechaNacimiento: document.getElementById("fechaNacimiento").value,
-        nombreDueño: document.getElementById("nombreDueño").value,
-        cedula: document.getElementById("cedula").value,
-        telefono: document.getElementById("telefono").value,
-        correo: document.getElementById("correo").value
-    };
+    const formInstance = $("#formMascotaDueño").dxForm("instance");
+    const formData = formInstance.option("formData");
 
     try {
         const response = await fetch("/Mascotas?handler=GuardarMascota", {
@@ -33,7 +25,7 @@ async function guardarMascota() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(mascotaConDueño)
+            body: JSON.stringify(formData)
         });
 
         if (response.ok) {

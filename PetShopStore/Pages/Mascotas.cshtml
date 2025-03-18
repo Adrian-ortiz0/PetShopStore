@@ -1,7 +1,7 @@
 ﻿@page
 @model PetShopStore.Pages.MascotasModel
 @using DevExtreme.AspNet.Mvc;
-@using PetShopCore.Models.DTOs
+@using PetShopCore.Models.DTOs;
 @{
     ViewData["Title"] = "Gestion Mascotas";
 }
@@ -17,27 +17,27 @@
             .Caption("Información del Dueño")
             .Items(groupItems =>
             {
-                groupItems.AddSimpleFor(m => m.NombreDueño).Editor(e => e.TextBox().ID("nombreDueño"));
-                groupItems.AddSimpleFor(m => m.Cedula).Editor(e => e.TextBox().ID("cedula"));
-                groupItems.AddSimpleFor(m => m.Telefono).Editor(e => e.TextBox().ID("telefono"));
-                groupItems.AddSimpleFor(m => m.Correo).Editor(e => e.TextBox().ID("correo"));
+                groupItems.AddSimpleFor(m => m.NombreDueño).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.Cedula).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.Telefono).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.Correo).Editor(e => e.TextBox());
             });
 
         items.AddGroup()
             .Caption("Información de la Mascota")
             .Items(groupItems =>
             {
-                groupItems.AddSimpleFor(m => m.NombreMascota).Editor(e => e.TextBox().ID("nombreMascota"));
-                groupItems.AddSimpleFor(m => m.Especie).Editor(e => e.TextBox().ID("especie"));
-                groupItems.AddSimpleFor(m => m.Raza).Editor(e => e.TextBox().ID("raza"));
-                groupItems.AddSimpleFor(m => m.FechaNacimiento).Editor(e => e.DateBox().ID("fechaNacimiento"));
+                groupItems.AddSimpleFor(m => m.NombreMascota).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.Especie).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.Raza).Editor(e => e.TextBox());
+                groupItems.AddSimpleFor(m => m.FechaNacimiento).Editor(e => e.DateBox());
             });
 
         items.AddButton()
             .HorizontalAlignment(HorizontalAlignment.Right)
             .ButtonOptions(b => b.Text("Guardar")
                 .Type(ButtonType.Success)
-                .UseSubmitBehavior(false) 
+                .UseSubmitBehavior(true)
                 .OnClick("guardarMascota")
             );
     })
@@ -46,19 +46,23 @@
 
 @(Html.DevExtreme().DataGrid()
     .ID("gridMascotas")
-    .DataSource("/Mascotas?handler=Mascotas", "GET")
+    .DataSource("/Mascotas?handler=Mascotas")
     .Columns(columns =>
     {
-        columns.Add().DataField("id").Caption("ID").Width(50);
-        columns.Add().DataField("nombre").Caption("Nombre");
-        columns.Add().DataField("especie").Caption("Especie");
-        columns.Add().DataField("raza").Caption("Raza");
-        columns.Add().DataField("edad").Caption("Edad");
+        columns.Add().DataField("Id").Caption("ID").Width(50);
+        columns.Add().DataField("Nombre").Caption("Nombre");
+        columns.Add().DataField("Especie").Caption("Especie");
+        columns.Add().DataField("Raza").Caption("Raza");
+        columns.Add().DataField("FechaNacimiento").Caption("Fecha de Nacimiento");
     })
     .Paging(p => p.PageSize(10))
     .FilterRow(f => f.Visible(true))
     .SearchPanel(s => s.Visible(true))
     .ShowBorders(true)
+    .Editing(e => e.Mode(GridEditMode.Popup)
+    .AllowAdding(true)
+    .AllowUpdating(true)
+    .AllowDeleting(true))
 )
 
 <script src="/js/mascotas.js"></script>
